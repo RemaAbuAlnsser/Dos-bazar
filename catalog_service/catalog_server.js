@@ -3,7 +3,6 @@ const express = require('express');
 const app = express();
 app.use(express.json());
 
-// بيانات الكتب الأولية
 let books = [
     { id: 1, title: "How to get a good grade in DOS in 40 minutes a day", topic: "distributed systems", quantity: 10, price: 50 },
     { id: 2, title: "RPCs for Noobs", topic: "distributed systems", quantity: 5, price: 40 },
@@ -11,7 +10,6 @@ let books = [
     { id: 4, title: "Cooking for the Impatient Undergrad", topic: "undergraduate school", quantity: 3, price: 25 }
 ];
 
-// البحث حسب الموضوع
 app.get('/search/:topic', (req, res) => {
     const topic = req.params.topic;
     const result = books.filter(book => 
@@ -21,7 +19,6 @@ app.get('/search/:topic', (req, res) => {
     res.json({ books: result });
 });
 
-// الحصول على معلومات كتاب
 app.get('/info/:id', (req, res) => {
     const book = books.find(b => b.id == req.params.id);
     if (!book) return res.status(404).json({ error: 'Book not found' });
@@ -33,7 +30,6 @@ app.get('/info/:id', (req, res) => {
     });
 });
 
-// تحديث الكمية
 app.put('/update/:id', (req, res) => {
     const book = books.find(b => b.id == req.params.id);
     if (!book) return res.status(404).json({ error: 'Book not found' });
