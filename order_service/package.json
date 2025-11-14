@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
+    "start": "node order_server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -15,6 +16,5 @@
     "node-fetch": "^2.7.0",
     "sqlite3": "^5.1.7",
     "axios": "^1.0.0"
-
   }
 }

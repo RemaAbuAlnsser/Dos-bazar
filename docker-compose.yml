@@ -1,19 +1,21 @@
-
 services:
   frontend:
+    container_name: frontend-service
     build: ./frontend
     ports:
       - "5000:5000"
     depends_on:
-      - catalog
-      - order
+      - catalog-service
+      - order-service
 
-  catalog:
+  catalog-service:
+    container_name: catalog-service
     build: ./catalog_service
     ports:
-      - "5001:5001"
+      - "5003:5003"
 
-  order:
+  order-service:
+    container_name: order-service
     build: ./order_service  
     ports:
       - "5002:5002"

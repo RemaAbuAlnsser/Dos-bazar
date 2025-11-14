@@ -4,9 +4,8 @@ const axios = require('axios');
 const app = express();
 app.use(express.json());
 
-const catalogService = 'http://localhost:5003';
-const orderService = 'http://localhost:5002';
-
+const catalogService = process.env.CATALOG_URL || 'http://catalog-service:5003';
+const orderService = process.env.ORDER_URL || 'http://order-service:5002';
 
 app.get('/search/:topic', async (req, res) => {
     try {
