@@ -3,7 +3,7 @@ const express = require('express');
 const axios = require('axios');
 const app = express();
 app.use(express.json());
-const catalogService = 'http://localhost:5001';  // بدلاً من 'http://catalog:5001'
+const catalogService = 'http://localhost:5003';  // بدلاً من 'http://catalog:5001'
 app.post('/purchase/:id', async (req, res) => {
     try {
         const bookId = req.params.id;

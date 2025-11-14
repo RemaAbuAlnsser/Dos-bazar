@@ -4,7 +4,7 @@ const axios = require('axios');
 const app = express();
 app.use(express.json());
 
-const catalogService = 'http://localhost:5001';
+const catalogService = 'http://localhost:5003';
 const orderService = 'http://localhost:5002';
 
 
