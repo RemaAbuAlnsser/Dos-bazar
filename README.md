@@ -14,3 +14,7 @@
 
 ### Order Server (Port 5002)
 - `POST /purchase/:id` - معالجة الطلبات
+
+### Postman Collection
+[Click here to open the Postman Collection](https://www.postman.com/s12114137-6590910/workspace/dos-bazar/collection/50077591-9fe2d420-1a28-4031-b07a-59e88debadb0?action=share&creator=50092040)
+
