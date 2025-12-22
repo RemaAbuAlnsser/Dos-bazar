@@ -5,15 +5,37 @@ services:
     ports:
       - "5000:5000"
     depends_on:
-      - catalog
-      - order
+      - catalog1
+      - catalog2
+      - order1
+      - order2
+    networks:
+      - bazar-network
 
-  catalog:
+  catalog1:
     build: ./catalog_service
     ports:
-      - "5001:5001"
+      - "5003:5003"
+    environment:
+      - PORT=5003
+      - FRONTEND_URL=http://frontend:5000
+      - REPLICA_URLS=http://catalog2:5004
+    networks:
+      - bazar-network
 
-  order:
-    build: ./order_service  
+ 
+
+  order1:
+    build: ./order_service
     ports:
       - "5002:5002"
+    environment:
+      - PORT=5002
+      - CATALOG_REPLICAS=http://catalog1:5003,http://catalog2:5004
+      - REPLICA_URLS=http://order2:5005
+    networks:
+      - bazar-network
+
+networks:
+  bazar-network:
+    driver: bridge
