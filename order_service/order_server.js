@@ -3,23 +3,11 @@ const express = require('express');
 const axios = require('axios');
 const app = express();
 app.use(express.json());
-const catalogService = process.env.CATALOG_URL || 'http://catalog-service:5003';
-
-app.get('/info/:id', async (req, res) => {
-    try {
-        const response = await axios.get(`${catalogService}/info/${req.params.id}`);
-        res.json(response.data);
-    } catch (error) {
-        if (error.response?.status === 404) {
-            return res.status(404).json({ error: 'Book not found', bookId: req.params.id });
-        }
-        res.status(500).json({ error: 'Failed to get book info', details: error.message });
-    }
-});
-
+const catalogService = 'http://localhost:5003';  // بدلاً من 'http://catalog:5001'
 app.post('/purchase/:id', async (req, res) => {
     try {
         const bookId = req.params.id;
+        const catalogService = getNextCatalogReplica();
         
         const bookInfo = await axios.get(`${catalogService}/info/${bookId}`);
         
@@ -38,6 +26,8 @@ app.post('/purchase/:id', async (req, res) => {
             timestamp: new Date().toISOString()
         };
         
+        await syncWithReplicas(order.id, order);
+        
         res.json({ 
             message: 'Purchase successful', 
             order: order 
@@ -51,6 +41,14 @@ app.post('/purchase/:id', async (req, res) => {
     }
 });
 
-app.listen(5002, () => {
-    console.log('Order Server running on port 5002');
+app.post('/sync-order', (req, res) => {
+    const { orderId, orderData } = req.body;
+    console.log(`Received order sync: Order ${orderId}`);
+    res.json({ message: 'Order synced successfully' });
+});
+
+app.listen(PORT, () => {
+    console.log(`Order Server running on port ${PORT}`);
+    console.log(`Catalog replicas: ${CATALOG_REPLICAS.join(', ')}`);
+    console.log(`Order replicas: ${REPLICA_URLS.length > 0 ? REPLICA_URLS.join(', ') : 'None'}`);
 });
